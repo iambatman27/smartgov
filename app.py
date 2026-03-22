@@ -18,8 +18,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'iamniranjanxyz27@gmail.com'
-app.config['MAIL_PASSWORD'] = 'wdyl fcpt vtku uxqp'
+app.config['MAIL_USERNAME'] = os.environ.get("EMAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD")
 import re
 mail = Mail(app)
 
