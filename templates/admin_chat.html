@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin Chat | SmartGov</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#f4f7fb;
+font-family:'Segoe UI',sans-serif;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+height:100vh;
+background:#002855;
+color:white;
+position:fixed;
+width:250px;
+padding-top:20px;
+}
+
+.sidebar h4{
+text-align:center;
+margin-bottom:30px;
+}
+
+.sidebar a{
+display:block;
+color:white;
+padding:12px 20px;
+text-decoration:none;
+}
+
+.sidebar a:hover{
+background:#0d6efd;
+}
+
+/* MAIN AREA */
+
+.main{
+margin-left:250px;
+padding:25px;
+}
+
+/* CHAT CONTAINER */
+
+.chat-container{
+background:white;
+border-radius:10px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+height:75vh;
+display:flex;
+flex-direction:column;
+}
+
+.chat-header{
+background:#0d6efd;
+color:white;
+padding:15px;
+border-radius:10px 10px 0 0;
+}
+
+.chat-body{
+flex:1;
+padding:20px;
+overflow-y:auto;
+background:#eef3f8;
+}
+
+/* MESSAGE BUBBLES */
+
+.message{
+margin-bottom:15px;
+display:flex;
+}
+
+.message.admin{
+justify-content:flex-end;
+}
+
+.message.student{
+justify-content:flex-start;
+}
+
+.bubble{
+padding:10px 15px;
+border-radius:15px;
+max-width:60%;
+font-size:14px;
+}
+
+.admin .bubble{
+background:#0d6efd;
+color:white;
+}
+
+.student .bubble{
+background:white;
+border:1px solid #ddd;
+}
+
+/* FOOTER */
+
+.chat-footer{
+padding:10px;
+border-top:1px solid #ddd;
+background:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h4><i class="fa fa-shield-halved"></i> SmartGov</h4>
+
+<a href="/admin/dashboard">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
+
+<a href="/admin/upload_job">
+<i class="fa fa-upload"></i> Upload Job
+</a>
+
+<a href="/admin/jobs">
+<i class="fa fa-briefcase"></i> Manage Jobs
+</a>
+
+<a href="/admin/chat">
+<i class="fa fa-comments"></i> Student Enquiries
+</a>
+
+<a href="/admin/logout">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<h3 class="mb-3">Chat with {{student.full_name}}</h3>
+
+<div class="chat-container">
+
+<div class="chat-header">
+
+<i class="fa fa-user"></i> {{student.full_name}}  
+<small class="ms-2">{{student.email}}</small>
+
+</div>
+
+
+<!-- CHAT BODY -->
+
+<div class="chat-body" id="chatBox">
+
+{% for m in messages %}
+
+<div class="message {{m.sender}}">
+
+<div class="bubble">
+
+{{m.message}}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<!-- MESSAGE INPUT -->
+
+<div class="chat-footer">
+
+<div class="input-group">
+
+<input type="text"
+id="messageInput"
+class="form-control"
+placeholder="Type reply...">
+
+<button class="btn btn-primary" onclick="sendMessage()">
+<i class="fa fa-paper-plane"></i>
+Send
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* STUDENT ID */
+
+const studentId = "{{student.id}}";
+
+
+/* SEND MESSAGE */
+
+function sendMessage(){
+
+let message = document.getElementById("messageInput").value
+
+if(message.trim()=="") return
+
+fetch("/admin/send_message/"+studentId,{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:"message="+encodeURIComponent(message)
+})
+
+.then(res=>res.text())
+.then(data=>{
+
+document.getElementById("messageInput").value=""
+
+loadMessages()
+
+})
+
+}
+
+
+/* LOAD MESSAGES */
+
+function loadMessages(){
+
+fetch("/get_messages/"+studentId)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let chatBox=document.getElementById("chatBox")
+
+chatBox.innerHTML=""
+
+data.messages.forEach(msg=>{
+
+let align = msg.sender=="admin" ? "admin" : "student"
+
+chatBox.innerHTML += `
+<div class="message ${align}">
+<div class="bubble">${msg.message}</div>
+</div>
+`
+
+})
+
+chatBox.scrollTop = chatBox.scrollHeight
+
+})
+
+}
+
+
+/* AUTO REFRESH CHAT */
+
+setInterval(loadMessages,3000)
+
+loadMessages()
+
+
+/* ENTER KEY SEND */
+
+document.getElementById("messageInput")
+.addEventListener("keypress", function(e){
+
+if(e.key==="Enter"){
+e.preventDefault()
+sendMessage()
+}
+
+})
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Upload Course | SmartGov</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#f4f7fb;
+font-family:'Segoe UI',sans-serif;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+height:100vh;
+background:#002855;
+color:white;
+position:fixed;
+width:250px;
+padding-top:20px;
+}
+
+.sidebar h4{
+text-align:center;
+margin-bottom:30px;
+}
+
+.sidebar a{
+display:block;
+color:white;
+padding:12px 20px;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#0d6efd;
+}
+
+/* MAIN AREA */
+
+.main{
+margin-left:250px;
+padding:25px;
+}
+
+/* CARD */
+
+.card-box{
+border:none;
+border-radius:10px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h4><i class="fa fa-school"></i> SmartGov</h4>
+
+<a href="/academy/dashboard">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
+
+<a href="/academy/upload_course">
+<i class="fa fa-book"></i> Upload Course
+</a>
+
+<a href="/academy/upload_ad">
+<i class="fa fa-image"></i> Upload Advertisement
+</a>
+
+<a href="/academy/logout">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<h3 class="mb-4">Upload Coaching Course</h3>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<div class="alert alert-success">
+{{messages[0]}}
+</div>
+
+{% endif %}
+{% endwith %}
+
+<div class="card card-box p-4">
+
+<form method="POST">
+
+<div class="row">
+
+<!-- Course Name -->
+
+<div class="col-md-6 mb-3">
+
+<label>Course Name</label>
+
+<input type="text"
+name="course_name"
+class="form-control"
+placeholder="Example: SSC Coaching Batch"
+required>
+
+</div>
+
+<!-- Exam Type -->
+
+<div class="col-md-6 mb-3">
+
+<label>Exam Type</label>
+
+<select name="exam_type" class="form-control" required>
+
+<option value="">Select Exam</option>
+
+<option>UPSC</option>
+<option>SSC</option>
+<option>Banking</option>
+<option>TNPSC</option>
+<option>Railway</option>
+<option>Defence</option>
+
+</select>
+
+</div>
+
+
+<!-- Duration -->
+
+<div class="col-md-6 mb-3">
+
+<label>Course Duration</label>
+
+<input type="text"
+name="duration"
+class="form-control"
+placeholder="Example: 6 Months"
+required>
+
+</div>
+
+
+<!-- Fees -->
+
+<div class="col-md-6 mb-3">
+
+<label>Course Fees</label>
+
+<input type="text"
+name="fees"
+class="form-control"
+placeholder="Example: ₹25,000"
+required>
+
+</div>
+
+
+<!-- Mode -->
+
+<div class="col-md-6 mb-3">
+
+<label>Mode</label>
+
+<select name="mode" class="form-control" required>
+
+<option value="">Select Mode</option>
+
+<option>Online</option>
+<option>Offline</option>
+<option>Hybrid</option>
+
+</select>
+
+</div>
+
+
+<!-- Location -->
+
+<div class="col-md-6 mb-3">
+
+<label>Location</label>
+
+<input type="text"
+name="location"
+class="form-control"
+placeholder="Example: Chennai"
+required>
+
+</div>
+
+
+<!-- Description -->
+
+<div class="col-md-12 mb-3">
+
+<label>Course Description</label>
+
+<textarea
+name="description"
+rows="3"
+class="form-control"
+placeholder="Enter course details for students"
+required></textarea>
+
+</div>
+
+</div>
+
+
+<button class="btn btn-primary">
+
+<i class="fa fa-upload"></i> Upload Course
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

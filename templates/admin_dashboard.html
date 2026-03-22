@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin Dashboard | SmartGov</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+background:#f4f7fb;
+font-family:'Segoe UI',sans-serif;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+height:100vh;
+background:#002855;
+color:white;
+position:fixed;
+width:250px;
+padding-top:20px;
+}
+
+.sidebar h4{
+text-align:center;
+margin-bottom:30px;
+font-weight:bold;
+}
+
+.sidebar a{
+display:block;
+color:white;
+padding:12px 20px;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#0d6efd;
+}
+
+/* MAIN AREA */
+
+.main{
+margin-left:250px;
+padding:25px;
+}
+
+/* CARDS */
+
+.stat-card{
+border:none;
+border-radius:12px;
+color:white;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+.stat-card:hover{
+transform:translateY(-4px);
+}
+
+.bg1{background:linear-gradient(45deg,#007bff,#00a8ff);}
+.bg2{background:linear-gradient(45deg,#28a745,#5cd65c);}
+.bg3{background:linear-gradient(45deg,#ff7f50,#ffb347);}
+
+/* JOB TABLE */
+
+.table-card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.quick-btn{
+margin-right:10px;
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h4><i class="fa fa-shield-halved"></i> SmartGov</h4>
+
+<a href="/admin/dashboard">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
+
+<a href="/admin/upload_job">
+<i class="fa fa-upload"></i> Upload Job
+</a>
+
+<a href="/admin/jobs">
+<i class="fa fa-briefcase"></i> View Jobs
+</a>
+
+<a href="/admin/chat">
+<i class="fa fa-comments"></i> Student Enquiry
+</a>
+
+<a href="/logout">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+
+<!-- STAT CARDS -->
+
+<div class="row mb-4">
+
+<div class="col-md-4">
+
+<div class="stat-card bg1">
+
+<h5>Total Students</h5>
+
+<h2>{{students}}</h2>
+
+<i class="fa fa-users fa-2x"></i>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="stat-card bg2">
+
+<h5>Total Academies</h5>
+
+<h2>{{academies}}</h2>
+
+<i class="fa fa-school fa-2x"></i>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="stat-card bg3">
+
+<h5>Total Jobs Posted</h5>
+
+<h2>{{jobs}}</h2>
+
+<i class="fa fa-briefcase fa-2x"></i>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="mb-4">
+
+<a href="/admin/upload_job" class="btn btn-primary quick-btn">
+<i class="fa fa-plus"></i> Post New Job
+</a>
+
+<a href="/admin/jobs" class="btn btn-success quick-btn">
+<i class="fa fa-list"></i> Manage Jobs
+</a>
+
+<a href="/admin/chat" class="btn btn-warning quick-btn">
+<i class="fa fa-comments"></i> Student Enquiries
+</a>
+
+</div>
+
+
+<!-- CHART -->
+
+<div class="row mb-4">
+
+<div class="col-md-6">
+
+<div class="table-card">
+
+<h5>System Statistics</h5>
+
+<canvas id="statsChart"></canvas>
+
+</div>
+
+</div>
+
+
+
+<div class="col-md-6">
+
+<div class="table-card">
+
+<h5>Platform Overview</h5>
+
+<ul class="list-group">
+
+<li class="list-group-item">
+Total Students Registered : <b>{{students}}</b>
+</li>
+
+<li class="list-group-item">
+Total Academies Registered : <b>{{academies}}</b>
+</li>
+
+<li class="list-group-item">
+Total Government Jobs Posted : <b>{{jobs}}</b>
+</li>
+
+<li class="list-group-item">
+Active System Status : <span class="text-success">Running</span>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- RECENT JOB TABLE -->
+
+<div class="table-card">
+
+<h5>Recent Job Posts</h5>
+
+<table class="table table-striped">
+
+<thead>
+
+<tr>
+
+<th>Job Title</th>
+<th>Department</th>
+<th>Qualification</th>
+<th>Last Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for job in recent_jobs %}
+
+<tr>
+
+<td>{{job.job_title}}</td>
+<td>{{job.department}}</td>
+<td>{{job.qualification}}</td>
+<td>{{job.last_date}}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<script>
+
+const ctx = document.getElementById('statsChart');
+
+new Chart(ctx, {
+type: 'bar',
+
+data: {
+labels: ['Students', 'Academies', 'Jobs'],
+
+datasets: [{
+label: 'System Data',
+
+data: [{{students}}, {{academies}}, {{jobs}}],
+
+backgroundColor:[
+'#007bff',
+'#28a745',
+'#ff7f50'
+]
+
+}]
+}
+
+});
+
+</script>
+
+
+</body>
+
+</html>

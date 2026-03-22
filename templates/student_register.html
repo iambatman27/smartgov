@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Registration | SmartGov</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#eef3f9;
+font-family:'Segoe UI',sans-serif;
+}
+
+.container-box{
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+
+.step{
+display:none;
+}
+
+.step.active{
+display:block;
+}
+
+.progress{
+height:10px;
+}
+
+h4{
+color:#003366;
+margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container mt-5 mb-5">
+
+<div class="container-box">
+
+<h3 class="text-center mb-4">
+SmartGov Student Registration Portal
+</h3>
+
+<div class="progress mb-4">
+<div class="progress-bar bg-primary" id="progressBar" style="width:10%"></div>
+</div>
+
+
+<form method="POST">
+
+
+<!-- STEP 1 -->
+
+<div class="step active">
+
+<h4>1. Account Information</h4>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label>Username</label>
+<input type="text" name="username" class="form-control" required>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Password</label>
+<input type="password" name="password" class="form-control" required>
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Email ID</label>
+
+<div class="input-group">
+
+<input type="email" name="email" id="email" class="form-control" required>
+
+<button type="button" class="btn btn-primary" onclick="sendOTP()">
+
+Send OTP
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="col-md-6 mb-3">
+
+<label>Enter OTP</label>
+
+<div class="input-group">
+
+<input type="text" id="otp" class="form-control">
+
+<button type="button" class="btn btn-success" onclick="verifyOTP()">
+
+Verify OTP
+
+</button>
+
+</div>
+
+<small id="otpStatus"></small>
+
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Mobile Number</label>
+<input type="text" name="mobile" class="form-control">
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- STEP 2 -->
+
+<div class="step">
+
+<h4>2. Personal Details</h4>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label>Full Name</label>
+<input type="text" name="full_name" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Father Name</label>
+<input type="text" name="father_name" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Mother Name</label>
+<input type="text" name="mother_name" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Date of Birth</label>
+<input type="date" name="dob" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Gender</label>
+<select name="gender" class="form-control">
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Marital Status</label>
+<select name="marital_status" class="form-control">
+<option>Single</option>
+<option>Married</option>
+</select>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Nationality</label>
+<input type="text" name="nationality" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Religion</label>
+<input type="text" name="religion" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Aadhaar Number</label>
+<input type="text" name="aadhaar" class="form-control">
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- STEP 3 -->
+
+<div class="step">
+
+<h4>3. Address Details</h4>
+
+<textarea name="permanent_address" class="form-control mb-3" placeholder="Permanent Address"></textarea>
+
+<textarea name="current_address" class="form-control mb-3" placeholder="Current Address"></textarea>
+
+<div class="row">
+
+<div class="col-md-4 mb-3">
+<input type="text" name="village" class="form-control" placeholder="Village / Town">
+</div>
+
+<div class="col-md-4 mb-3">
+<input type="text" name="district" class="form-control" placeholder="District">
+</div>
+
+<div class="col-md-4 mb-3">
+<input type="text" name="state" class="form-control" placeholder="State">
+</div>
+
+<div class="col-md-4 mb-3">
+<input type="text" name="pincode" class="form-control" placeholder="PIN Code">
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- STEP 4 -->
+
+<div class="step">
+
+<h4>4. Category / Reservation</h4>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label>Category</label>
+<select name="category" class="form-control">
+<option>General</option>
+<option>OBC</option>
+<option>SC</option>
+<option>ST</option>
+<option>EWS</option>
+</select>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Sub Category</label>
+<input type="text" name="sub_category" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Caste Certificate</label>
+<input type="text" name="caste_certificate" class="form-control">
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Creamy Layer</label>
+<select name="creamy_layer" class="form-control">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- STEP 5 -->
+
+<div class="step">
+
+<h4>5. Special Reservation</h4>
+
+<div class="row">
+
+<div class="col-md-4 mb-3">
+<label>PWD</label>
+<select name="pwd" class="form-control">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+<div class="col-md-4 mb-3">
+<label>Disability Type</label>
+<input type="text" name="disability_type" class="form-control">
+</div>
+
+<div class="col-md-4 mb-3">
+<label>Disability %</label>
+<input type="text" name="disability_percentage" class="form-control">
+</div>
+
+<div class="col-md-4 mb-3">
+<label>Ex-Serviceman</label>
+<select name="ex_serviceman" class="form-control">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+<div class="col-md-4 mb-3">
+<label>Sports Quota</label>
+<select name="sports_quota" class="form-control">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- STEP 6 -->
+
+<div class="step">
+
+<h4>6. Education – 10th</h4>
+
+<div class="row">
+
+<input class="form-control mb-2" name="tenth_board" placeholder="Board Name">
+<input class="form-control mb-2" name="tenth_school" placeholder="School Name">
+<input class="form-control mb-2" name="tenth_year" placeholder="Year of Passing">
+<input class="form-control mb-2" name="tenth_percentage" placeholder="Percentage">
+<input class="form-control mb-2" name="tenth_subjects" placeholder="Subjects">
+
+</div>
+
+</div>
+
+
+
+<!-- STEP 7 -->
+
+<div class="step">
+
+<h4>7. Education – 12th</h4>
+
+<input class="form-control mb-2" name="twelfth_board" placeholder="Board Name">
+<input class="form-control mb-2" name="twelfth_stream" placeholder="Stream">
+<input class="form-control mb-2" name="twelfth_school" placeholder="School Name">
+<input class="form-control mb-2" name="twelfth_year" placeholder="Year">
+<input class="form-control mb-2" name="twelfth_percentage" placeholder="Percentage">
+<input class="form-control mb-2" name="twelfth_subjects" placeholder="Subjects">
+
+</div>
+
+
+
+<!-- STEP 8 -->
+
+<div class="step">
+
+<h4>8. Diploma</h4>
+
+<input class="form-control mb-2" name="diploma_course" placeholder="Course">
+<input class="form-control mb-2" name="diploma_branch" placeholder="Branch">
+<input class="form-control mb-2" name="diploma_institute" placeholder="Institute">
+<input class="form-control mb-2" name="diploma_university" placeholder="University">
+
+</div>
+
+
+
+<!-- STEP 9 -->
+
+<div class="step">
+
+<h4>9. Undergraduate Degree</h4>
+
+<input class="form-control mb-2" name="ug_degree" placeholder="Degree">
+<input class="form-control mb-2" name="ug_branch" placeholder="Branch">
+<input class="form-control mb-2" name="ug_college" placeholder="College">
+<input class="form-control mb-2" name="ug_university" placeholder="University">
+
+</div>
+
+
+
+<!-- STEP 10 -->
+
+<div class="step">
+
+<h4>10. Postgraduate Degree</h4>
+
+<input class="form-control mb-2" name="pg_degree" placeholder="Degree">
+<input class="form-control mb-2" name="pg_specialization" placeholder="Specialization">
+
+</div>
+
+
+
+<!-- STEP 11 -->
+
+<div class="step">
+
+<h4>11. Additional Qualifications</h4>
+
+<input class="form-control mb-2" name="phd" placeholder="PhD">
+<input class="form-control mb-2" name="professional_courses" placeholder="Professional Courses">
+<input class="form-control mb-2" name="certifications" placeholder="Certifications">
+
+</div>
+
+
+
+<!-- STEP 12 -->
+
+<div class="step">
+
+<h4>12. Defence Eligibility</h4>
+
+<input class="form-control mb-2" name="ncc_certificate" placeholder="NCC Certificate">
+<input class="form-control mb-2" name="ncc_division" placeholder="NCC Division">
+<input class="form-control mb-2" name="ncc_grade" placeholder="NCC Grade">
+
+</div>
+
+
+
+<div class="mt-4">
+
+<button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+
+<button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+
+<button type="submit" class="btn btn-success" id="submitBtn" style="display:none">
+Submit Registration
+</button>
+<div class="text-center mt-3">
+
+<a href="/" class="btn btn-outline-secondary btn-sm">
+
+<i class="fa fa-home"></i> Back to Home
+
+</a>
+
+</div>
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+let currentStep=0
+let steps=document.querySelectorAll(".step")
+
+function showStep(n){
+
+steps.forEach(step=>step.classList.remove("active"))
+steps[n].classList.add("active")
+
+let progress=((n+1)/steps.length)*100
+document.getElementById("progressBar").style.width=progress+"%"
+
+if(n==steps.length-1){
+document.getElementById("submitBtn").style.display="inline-block"
+}else{
+document.getElementById("submitBtn").style.display="none"
+}
+
+}
+
+function nextStep(){
+
+if(currentStep<steps.length-1){
+currentStep++
+showStep(currentStep)
+}
+
+}
+
+function prevStep(){
+
+if(currentStep>0){
+currentStep--
+showStep(currentStep)
+}
+
+}
+function sendOTP(){
+
+let email=document.getElementById("email").value
+
+fetch("/send_otp",{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:"email="+email
+})
+.then(res=>res.json())
+.then(data=>{
+alert("OTP Sent to Email")
+})
+
+}
+
+
+function verifyOTP(){
+
+let otp=document.getElementById("otp").value
+
+fetch("/verify_otp",{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:"otp="+otp
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status=="verified"){
+
+document.getElementById("otpStatus").innerHTML="✅ Email Verified"
+document.getElementById("otpStatus").style.color="green"
+
+}else{
+
+document.getElementById("otpStatus").innerHTML="❌ Invalid OTP"
+document.getElementById("otpStatus").style.color="red"
+
+}
+
+})
+
+}
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Academy Registration | SmartGov</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:linear-gradient(120deg,#003366,#0055a5,#0d6efd);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Segoe UI',sans-serif;
+}
+
+.register-card{
+
+background:white;
+border-radius:12px;
+padding:40px;
+width:900px;
+box-shadow:0 10px 40px rgba(0,0,0,0.3);
+animation:fadeIn 0.7s;
+
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.logo{
+font-size:40px;
+color:#0d6efd;
+}
+
+.title{
+font-weight:bold;
+color:#003366;
+}
+
+.input-group-text{
+background:#0d6efd;
+color:white;
+border:none;
+}
+
+.btn-register{
+padding:10px;
+font-weight:600;
+border-radius:8px;
+font-size:16px;
+}
+
+.footer-text{
+font-size:13px;
+margin-top:15px;
+color:#777;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="register-card">
+
+<div class="text-center mb-4">
+
+<i class="fa fa-graduation-cap logo"></i>
+
+<h3 class="title">Academy Registration</h3>
+
+<p class="text-muted">Join SmartGov Career Recommendation Platform</p>
+
+</div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<div class="alert alert-success text-center">
+{{messages[0]}}
+</div>
+
+{% endif %}
+{% endwith %}
+
+<form method="POST">
+
+<div class="row">
+
+<!-- Academy Name -->
+
+<div class="col-md-6 mb-3">
+
+<label>Academy Name</label>
+
+<div class="input-group">
+
+<span class="input-group-text">
+<i class="fa fa-school"></i>
+</span>
+
+<input type="text"
+name="academy_name"
+class="form-control"
+placeholder="Enter Academy Name"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Email -->
+
+<div class="col-md-6 mb-3">
+
+<label>Email Address</label>
+
+<div class="input-group">
+
+<span class="input-group-text">
+<i class="fa fa-envelope"></i>
+</span>
+
+<input type="email"
+name="email"
+class="form-control"
+placeholder="Enter Email"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Password -->
+
+<div class="col-md-6 mb-3">
+
+<label>Password</label>
+
+<div class="input-group">
+
+<span class="input-group-text">
+<i class="fa fa-lock"></i>
+</span>
+
+<input type="password"
+name="password"
+class="form-control"
+placeholder="Create Password"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Phone -->
+
+<div class="col-md-6 mb-3">
+
+<label>Phone Number</label>
+
+<div class="input-group">
+
+<span class="input-group-text">
+<i class="fa fa-phone"></i>
+</span>
+
+<input type="text"
+name="phone"
+class="form-control"
+placeholder="Enter Contact Number"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Address -->
+
+<div class="col-md-12 mb-3">
+
+<label>Academy Address</label>
+
+<textarea
+name="address"
+class="form-control"
+rows="2"
+placeholder="Enter Full Address"
+required></textarea>
+
+</div>
+
+
+<!-- District -->
+
+<div class="col-md-4 mb-3">
+
+<label>District</label>
+
+<input type="text"
+name="district"
+class="form-control"
+placeholder="District"
+required>
+
+</div>
+
+
+<!-- State -->
+
+<div class="col-md-4 mb-3">
+
+<label>State</label>
+
+<input type="text"
+name="state"
+class="form-control"
+placeholder="State"
+required>
+
+</div>
+
+
+<!-- Pincode -->
+
+<div class="col-md-4 mb-3">
+
+<label>Pincode</label>
+
+<input type="text"
+name="pincode"
+class="form-control"
+placeholder="Pincode"
+required>
+
+</div>
+
+
+<!-- Specialization -->
+
+<div class="col-md-12 mb-3">
+
+<label>Academy Specialization</label>
+
+<select name="specialization" class="form-control" required>
+
+<option value="">Select Coaching Category</option>
+
+<option>UPSC Coaching</option>
+<option>SSC Coaching</option>
+<option>Banking Exams</option>
+<option>TNPSC Coaching</option>
+<option>Railway Exams</option>
+<option>Defence Exams</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<button class="btn btn-primary w-100 btn-register">
+
+<i class="fa fa-user-plus"></i> Register Academy
+
+</button>
+
+</form>
+
+
+<div class="text-center mt-3">
+
+Already registered?
+
+<a href="/academy/login">
+
+Login Here
+
+</a>
+
+</div>
+<div class="text-center mt-3">
+
+<a href="/" class="btn btn-outline-secondary btn-sm">
+
+<i class="fa fa-home"></i> Back to Home
+
+</a>
+
+</div>
+
+<div class="text-center footer-text">
+
+SmartGov AI Career Recommendation System
+
+</div>
+
+</div>
+
+</body>
+</html>

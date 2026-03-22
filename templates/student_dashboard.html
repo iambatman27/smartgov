@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Student Dashboard | SmartGov</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#f4f7fb;
+font-family:'Segoe UI',sans-serif;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+height:100vh;
+background:#002855;
+color:white;
+position:fixed;
+width:250px;
+padding-top:20px;
+}
+
+.sidebar h4{
+text-align:center;
+margin-bottom:30px;
+}
+
+.sidebar a{
+display:block;
+color:white;
+padding:12px 20px;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#0d6efd;
+}
+
+/* MAIN */
+
+.main{
+margin-left:250px;
+padding:25px;
+}
+
+/* CARDS */
+
+.card-box{
+border:none;
+border-radius:10px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* JOB SCORE */
+
+.score-bar{
+height:8px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h4><i class="fa fa-user-graduate"></i> SmartGov</h4>
+
+<a href="/student/dashboard">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
+
+<a href="/student/chat">
+<i class="fa fa-comments"></i> Chat with Admin
+</a>
+
+<a href="/student/delete_profile"
+onclick="return confirm('Delete your profile permanently?')">
+<i class="fa fa-trash"></i> Delete Profile
+</a>
+
+<a href="/student/logout">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<h2 class="mb-4">Welcome {{student.full_name}}</h2>
+
+
+<!-- PROFILE SUMMARY -->
+
+<div class="row mb-4">
+
+<div class="col-md-4">
+
+<div class="card card-box p-3">
+
+<h5>Profile Summary</h5>
+
+<p><b>Name:</b> {{student.full_name}}</p>
+
+<p><b>Email:</b> {{student.email}}</p>
+
+<p><b>Qualification:</b> {{student.ug_degree}}</p>
+
+<p><b>Branch:</b> {{student.ug_branch}}</p>
+
+<p><b>Category:</b> {{student.category}}</p>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card card-box p-3">
+
+<h5>Account Details</h5>
+
+<p><b>User ID:</b> {{student.user_id}}</p>
+
+<p><b>Age:</b> {{student.age}}</p>
+
+<p><b>Nationality:</b> {{student.nationality}}</p>
+
+<p><b>Last Login:</b> {{student.last_login}}</p>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card card-box p-3">
+
+<h5>Quick Actions</h5>
+
+<a href="/student/chat" class="btn btn-primary btn-sm mb-2 w-100">
+Chat with Admin
+</a>
+
+<a href="/student/delete_profile" 
+class="btn btn-danger btn-sm w-100"
+onclick="return confirm('Delete profile permanently?')">
+
+Delete Profile
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- AI JOB RECOMMENDATION -->
+
+<h4 class="mb-3">AI Recommended Government Jobs</h4>
+
+<div class="row">
+
+{% for item in recommended_jobs %}
+
+<div class="col-md-4 mb-3">
+
+<div class="card card-box p-3">
+
+<h5>{{item.job.job_title}}</h5>
+
+<p><b>Department:</b> {{item.job.department}}</p>
+
+<p><b>Qualification:</b> {{item.job.qualification}}</p>
+
+<p><b>Match Score:</b> {{item.score}}%</p>
+
+<div class="progress score-bar mb-2">
+
+<div class="progress-bar bg-success"
+style="width: {{item.score}}%">
+
+</div>
+
+</div>
+
+<a href="/download/{{item.job.pdf_file}}" class="btn btn-success btn-sm">
+
+View Notification
+
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+
+<!-- LATEST JOB NOTIFICATIONS -->
+
+<h4 class="mt-4 mb-3">Latest Job Notifications</h4>
+
+<div class="card card-box p-3">
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+<th>Job Title</th>
+<th>Department</th>
+<th>Match Score</th>
+<th>Notification</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in latest_jobs %}
+
+<tr>
+
+<td>{{item.job.job_title}}</td>
+<td>{{item.job.department}}</td>
+<td>{{item.score}}%</td>
+
+<td>
+<a href="/download/{{item.job.pdf_file}}" class="btn btn-success btn-sm">
+Download
+</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<!-- RECOMMENDED ACADEMIES -->
+
+<!-- RECOMMENDED ACADEMIES -->
+
+<h4 class="mt-4 mb-3">Recommended Academies</h4>
+
+<div class="row">
+
+{% for item in academies %}
+
+<div class="col-md-4 mb-3">
+
+<div class="card card-box p-3">
+
+<h5>{{item.course.course_name}}</h5>
+
+<p><b>Exam Type:</b> {{item.course.exam_type}}</p>
+
+<p><b>Location:</b> {{item.course.location}}</p>
+
+<p><b>Fees:</b> {{item.course.fees}}</p>
+
+<p><b>Duration:</b> {{item.course.duration}}</p>
+
+<p>
+<b>AI Score:</b> 
+<span class="badge bg-success">
+{{item.score}}%
+</span>
+</p>
+
+{% if item.ad %}
+
+<a href="{{ url_for('static', filename='ad_posts/' + item.ad.file) }}" 
+   class="btn btn-primary btn-sm" 
+   target="_blank">
+
+<i class="fa fa-download"></i> Download Brochure
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>
