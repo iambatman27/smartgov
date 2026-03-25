@@ -15,11 +15,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['UPLOAD_FOLDER'] = 'uploads/job_pdfs'
 app.config["AD_UPLOAD_FOLDER"] = "static/ad_posts"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'iamniranjanxyz27@gmail.com'
-app.config['MAIL_PASSWORD'] = 'cyftsgvygktnxnct'
+app.config['MAIL_USERNAME'] = 'apikey'
+app.config['MAIL_PASSWORD'] = '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'
 import re
 mail = Mail(app)
 
@@ -876,7 +876,7 @@ def send_otp():
 
     msg = Message(
         "SmartGov Email Verification OTP",
-        sender=app.config['MAIL_USERNAME'],
+        sender='iamniranjanxyz27@gmail.com',  # ✅ your verified email
         recipients=[email]
     )
 
@@ -888,9 +888,13 @@ def send_otp():
     Do not share this OTP with anyone.
     """
 
-    mail.send(msg)
+    try:
+        mail.send(msg)
+        print("OTP sent successfully")   # helpful for Render logs
+    except Exception as e:
+        print("Mail error:", e)          # VERY IMPORTANT for debugging
 
-    return {"status":"OTP Sent"}
+    return {"status": "OTP Sent"}
 @app.route("/verify_otp", methods=["POST"])
 def verify_otp():
 
