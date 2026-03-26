@@ -874,6 +874,12 @@ def send_otp():
     session["email_otp"] = otp
     session["otp_email"] = email
 
+    # DEBUG: Print OTP to console for local testing
+    print(f"\n{'='*20}")
+    print(f"DEBUG - OTP Sent: {otp}")
+    print(f"Target Email: {email}")
+    print(f"{'='*20}\n")
+
     msg = Message(
         "SmartGov Email Verification OTP",
         sender='iamniranjanxyz27@gmail.com',  # ✅ your verified email
