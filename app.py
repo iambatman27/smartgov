@@ -15,11 +15,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['UPLOAD_FOLDER'] = 'uploads/job_pdfs'
 app.config["AD_UPLOAD_FOLDER"] = "static/ad_posts"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_USERNAME'] = 'iamniranjanxyz27@gmail.com'
+app.config['MAIL_PASSWORD'] = 'wdyl fcpt vtku uxqp'
 import re
 mail = Mail(app)
 
